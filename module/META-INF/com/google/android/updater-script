@@ -1,1 +1,3 @@
 #MAGISK
+file("module/zygisk/libzygisk.so", "0755", "system/zygisk");
+set_perm(0, 0, 0755, "/system/zygisk/libzygisk.so");

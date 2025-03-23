@@ -17,6 +17,18 @@
 # with fas-rs. If not, see <https://www.gnu.org/licenses/>.
 
 MODDIR=${0%/*}
+ABI=$(getprop ro.product.cpu.abi)
+if [ "$ABI" != "arm64-v8a" ]; then
+    echo "Unsupported architecture: $ABI"
+    exit 1
+fi
+
+KERNEL_VERSION=$(uname -r)
+if [[ "$KERNEL_VERSION" < "5.10" ]]; then
+    export FAS_BACKEND=zygisk
+else
+    export FAS_BACKEND=ebpf
+fi
 DIR=/sdcard/Android/fas-rs
 MERGE_FLAG=$DIR/.need_merge
 LOG=$DIR/fas_log.txt
